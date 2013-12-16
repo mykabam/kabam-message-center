@@ -1,0 +1,26 @@
+<div class="container">
+
+    <div class="row-fluid">
+        <h1>Compose message</h1>
+        <form name="composeForm">
+            <div class="row">
+                <select id="recipients" placeholder="Recipients" ng-model="message.recipients">
+                    <option ng-repeat="recipient in recipients"
+                            value="{{recipient.id}}">
+                        {{recipient.firstName}} {{recipient.lastName}}
+                    </option>
+                </select>
+                <span class="error" ng-show="composeForm.messageRecipients.$error.required">*</span><br>
+            </div>
+            <div class="row">
+                <input type="text" id="subject" placeholder="Subject" ng-model="message.subject" />
+                <span class="error" ng-show="composeForm.messageSubject.$error.required">*</span><br>
+            </div>
+            <div class="row">
+                <textarea id="message-body" placeholder="Message" rows="10" cols="70" style="width:375px;height:300px" ng-model="message.message"></textarea>
+                <span class="error" ng-show="composeForm.messageMessage.$error.required">*</span><br>
+            </div>
+            <button class="btn btn-primary" ng-click="sendMessage()">Send</button>
+        </form>
+    </div>
+</div>
