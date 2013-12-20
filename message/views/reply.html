@@ -1,26 +1,26 @@
 <div class="container">
 
-    <div class="row-fluid">
-        <h1>Reply message</h1>
-        <form name="replyForm">
-            <div class="row">
+  <div class="row-fluid">
+    <h1>Reply message</h1>
+    <form name="replyForm">
+      <div class="row">
 				<h3>{{message.subject}}</h3>
-				
+
 				<br/>
-				
-                <div>{{message.messageBody}}</div>
-				
+
+        <div>{{message.messageBody}}</div>
+
 				<div>
 					Date: {{message.createTime}}
 				</div>
-            </div>
-            <div class="row">
-                <input type="text" id="subject" placeholder="Subject" ng-model="replyMessage.subject" />
-            </div>
-            <div class="row">
-                <textarea id="message-body" placeholder="Message" rows="10" cols="70" style="width:375px;height:300px" ng-model="replyMessage.message"></textarea>
-            </div>
-            <button class="btn btn-primary" ng-click="sendMessage()">Reply</button>
-        </form>
-    </div>
+      </div>
+      <div class="row">
+        <input type="text" id="subject" placeholder="Subject" ng-model="replyMessage.subject" />
+      </div>
+      <div class="row">
+        <textarea id="message-body" placeholder="Message" rows="10" cols="70" style="width:375px;height:300px" ng-model="replyMessage.message"></textarea>
+      </div>
+      <button class="btn btn-primary" ng-click="sendMessage()">Reply</button>
+    </form>
+  </div>
 </div>

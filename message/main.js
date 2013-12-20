@@ -8,8 +8,8 @@ angular.module('kabam.messages.services', []);
 angular.module('kabam.messages.controllers', ['kabam.messages.services']);
 
 angular.module('kabam.messages', [
-    'kabam.messages.states',
-    'kabam.messages.controllers',
-    'kabam.messages.services'
+  'kabam.messages.states',
+  'kabam.messages.controllers',
+  'kabam.messages.services'
 ]);
 kabam.use('kabam.messages');

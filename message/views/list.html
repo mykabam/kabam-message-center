@@ -1,72 +1,72 @@
 <div class="container page-title-area messages-title">
-    <div class="clearfix">
-        <div class="row">
-            <div class="col-lg-3 col-md-3 col-sm-12">
-                <h2 class="page-title">Messages</h2>
-            </div>
-            <div class="col-lg-4 col-md-4 col-sm-12 page-title-nav justified">
-                <ul>
-                    <li class="active"><a href="#">All</a></li>
-                    <li><a href="#message/mail">Mail</a></li>
-                    <li><a href="#">Calls</a></li>
-                    <li><a href="#">Audio</a></li>
-                </ul>
-            </div>
-            <div class="col-lg-5 col-md-5 col-sm-12">
-                <a ui-sref="composeMessage" class="btn btn-altprimary pull-right discussion-new-topic-header"><i class="fa fa-plus"></i> Send Message</a>
-            </div>
-        </div>
-    </div>
-
-    <table class="table messages-index">
-        <thead class="messages-head">
-        <tr>
-            <th colspan="2">&nbsp;</th>
-            <th class="">From</th>
-            <th class="">Status</th>
-            <th colspan="2">Participants</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr class="message-row" ng-repeat="message in messages">
-            <td><input type="checkbox" /></td>
-            <td><i class="fa fa-phone"></i></td>
-            <td>{{message.sender.firstName}} {{message.sender.lastName}}</td>
-            <td>{{message.readingStatus}}</td>
-            <td>{{message.subject}}</td>
-            <td>
-                <a ui-sref="replyMessage({id : message._id})" class="btn btn-altprimary pull-right">View</a>
-                <a ui-sref="replyMessage({id : message._id})" class="btn btn-altprimary pull-right">Reply</a>
-            </td>
-        </tr>
-        </tbody>
-    </table>
-
+  <div class="clearfix">
     <div class="row">
-        <div class="col-lg-7 col-md-7 col-sm-7"></div>
-
-        <div class="col-lg-3 col-md-3 col-sm-3">
-            <div class="class-switcher clearfix">
-                <div class="dropdown">
-                    <a href="#" class="current-class" data-toggle="dropdown">
-                        <span>Actions</span>
-                        <i class="fa fa-sort-down"></i>
-                    </a>
-
-                    <ul class="dropdown-menu">
-                        <li class="dropdown-item">
-                            <a href="#">Ascending</a>
-                        </li>
-
-                        <li class="dropdown-item">
-                            <a href="#">Desending</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-        <div class="col-lg-2 col-md-2 col-sm-2">
-            <a ui-sref="composeMessage" class="btn btn-altprimary pull-right discussion-new-topic-header"><i class="fa fa-plus"></i> Send Message</a>
-        </div>
+      <div class="col-lg-3 col-md-3 col-sm-12">
+        <h2 class="page-title">Messages</h2>
+      </div>
+      <div class="col-lg-4 col-md-4 col-sm-12 page-title-nav justified">
+        <ul>
+          <li class="active"><a href="#">All</a></li>
+          <li><a href="#message/mail">Mail</a></li>
+          <li><a href="#">Calls</a></li>
+          <li><a href="#">Audio</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-5 col-md-5 col-sm-12">
+        <a ui-sref="composeMessage" class="btn btn-altprimary pull-right discussion-new-topic-header"><i class="fa fa-plus"></i> Send Message</a>
+      </div>
     </div>
+  </div>
+
+  <table class="table messages-index">
+    <thead class="messages-head">
+      <tr>
+        <th colspan="2">&nbsp;</th>
+        <th class="">From</th>
+        <th class="">Status</th>
+        <th colspan="2">Participants</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="message-row" ng-repeat="message in messages">
+        <td><input type="checkbox" /></td>
+        <td><i class="fa fa-phone"></i></td>
+        <td>{{message.sender.firstName}} {{message.sender.lastName}}</td>
+        <td>{{message.readingStatus}}</td>
+        <td>{{message.subject}}</td>
+        <td>
+          <a ui-sref="replyMessage({id : message._id})" class="btn btn-altprimary pull-right">View</a>
+          <a ui-sref="replyMessage({id : message._id})" class="btn btn-altprimary pull-right">Reply</a>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="row">
+    <div class="col-lg-7 col-md-7 col-sm-7"></div>
+
+    <div class="col-lg-3 col-md-3 col-sm-3">
+      <div class="class-switcher clearfix">
+        <div class="dropdown">
+          <a href="#" class="current-class" data-toggle="dropdown">
+            <span>Actions</span>
+            <i class="fa fa-sort-down"></i>
+          </a>
+
+          <ul class="dropdown-menu">
+            <li class="dropdown-item">
+              <a href="#">Ascending</a>
+            </li>
+
+            <li class="dropdown-item">
+              <a href="#">Desending</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-2 col-md-2 col-sm-2">
+      <a ui-sref="composeMessage" class="btn btn-altprimary pull-right discussion-new-topic-header"><i class="fa fa-plus"></i> Send Message</a>
+    </div>
+  </div>
 </div>
