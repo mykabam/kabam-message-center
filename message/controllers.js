@@ -23,7 +23,7 @@ messagesControllers.controller('MessagesComposeCtrl', [
   function($scope, $http, $log, authService, notificationService) {
     //TODO - change api
     //this is demo
-    $http.get('/api/users').success(function(response){
+    $http.get('/api/rest/users').success(function(response){
       $scope.recipients = response;
     });
 

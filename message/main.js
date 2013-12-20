@@ -12,4 +12,3 @@ angular.module('kabam.messages', [
   'kabam.messages.controllers',
   'kabam.messages.services'
 ]);
-kabam.use('kabam.messages');
