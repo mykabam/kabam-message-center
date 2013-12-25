@@ -2,4 +2,5 @@
 kabam-message-center is frontend of kabam message plugin
 /public/bower_components/kabam-core-web-frontend/public/components
 
-TODO - Update extend version to core version
+Add textAngular library in /public/bower_components/kabam-core-web-frontend/public/textAngular
+https://github.com/fraywing/textAngular/
