@@ -1,106 +1,106 @@
-var messagesControllers = angular.module('kabam.messages.controllers', []);
+var messagesControllers = angular.module('kabam.messages.controllers',
+    ['kabam.messages.services', 'textAngular', 'ui.bootstrap', 'ui.select2']);
 
 messagesControllers.controller('MessagesListCtrl', [
-  '$scope', '$http',
-  function($scope, $http) {
-    $http.get('/messages')
-      .success(function(response){
-        $scope.messages = response;
-      })
-      .error(function(response){
-        alert('Error!');
-      });
+  '$scope', 'Restangular', 'MessageService', 'page',
+  function($scope, Restangular, MessageService, page) {
+    $scope.isChecked = false;
 
-    $scope.$on('new-message', function(event, newMessage){
+    /**
+     * get message to the lists
+     */
+    MessageService.getMessages(page).then(function(messages) {
+      $scope.messages = messages;
+    });
+
+    $scope.$on('new-message', function(event, newMessage) {
       $scope.messages.push(newMessage);
     });
-  }
 
+    /**
+     * toogle select all / none
+     * @param boolean onOff
+     */
+    $scope.toogleCheck = function(onOff) {
+      $scope.isChecked = onOff;
+    };
+  }
 ]);
 
 messagesControllers.controller('MessagesComposeCtrl', [
-  '$scope', '$http', '$log','authService', 'notificationService',
+  '$scope', '$http', '$log', 'authService', 'notificationService',
   function($scope, $http, $log, authService, notificationService) {
     //TODO - change api
+    //change to auto complete
     //this is demo
-    $http.get('/api/users').success(function(response){
+    $http.get('/api/users').success(function(response) {
       $scope.recipients = response;
     });
 
-    $scope.sendMessage = function(){
-      //TODO - validate params before call API
-      $http.post('/messages', {
-        subject : $scope.message.subject,
-        recipient : $scope.message.recipients,
-        message : $scope.message.message
-      })
-        .success(function(response){
-          //sent mail successfully
-          if(response.status){
-            //emit to this user
-            var id = $scope.message.recipients;
-            var to = _.find($scope.recipients, { _id: id });
+    $scope.sendMessage = function() {
+      var msgObj = {
+        subject: $scope.replyMessage.subject,
+        recipient: $scope.message.ownerId,
+        message: $scope.replyMessage.message,
+        mainMessageId: message._id
+      };
+      //send message
+      MessageService.postMessage(msgObj).then(function(result) {
+        if (result.status) {
+          //emit to this user
+          var to = message.sender;
 
-            $scope.$emit('backend', { action: 'notify:sio',
-                                      message: 'You have a new message from ' + authService.user.email,
-                                      user: to,
-                                      type: 'message'
-                                    });
+          $scope.$emit('backend', {action: 'notify:sio',
+            message: 'You have a new message from ' + authService.user.email,
+            user: to,
+            type: 'message'
+          });
 
-            notificationService.success('Message has sent');
+          notificationService.success('Message has sent');
 
-            $scope.message.subject = '';
-            $scope.message.message = '';
-          }
-        })
-        .error(function(response){
-          console.log(response)
-        });
+          //reset form
+          $scope.replyMessage.subject = '';
+          $scope.replyMessage.message = '';
+        }
+      });
     };
   }
 ]);
 
 
 messagesControllers.controller('MessagesReplyCtrl', [
-  '$scope', '$http', '$log','authService', 'notificationService',
-  function($scope, $http, $log, authService, notificationService, messageId) {
-		//TODO - get dynamic message ID
+  '$scope', '$http', 'Restangular', 'MessageService', 'authService',
+  'notificationService', 'message',
+  function($scope, $http, Restangular, MessageService, authService, notificationService, message) {
+    //TODO - get dynamic message ID
+    $scope.message = message;
 
-		$scope.messageId = '52ac0765f8cd96625e00002a';
-		$http.get('/messages/'+$scope.messageId).success(function(response){
-			$scope.message = response;
-		})
-		  .error(function(){
-			  notificationService.success('Error');
-		  });
+    $scope.sendMessage = function() {
+      var msgObj = {
+        subject: $scope.replyMessage.subject,
+        recipient: $scope.message.ownerId,
+        message: $scope.replyMessage.message,
+        mainMessageId: message._id
+      };
+      //send message
+      MessageService.postMessage(msgObj).then(function(result) {
+        if (result.status) {
+          //emit to this user
+          var to = message.sender;
 
-    $scope.sendMessage = function(){
-      $http.post('/messages', {
-        subject : $scope.replyMessage.subject,
-        recipient : $scope.message.ownerId,
-        message : $scope.replyMessage.message
-      })
-        .success(function(response){
-          //sent mail successfully
-          if(response.status){
-            //emit to this user
-            var to = $scope.message.sender;
+          $scope.$emit('backend', {action: 'notify:sio',
+                        message: 'You have a new message from ' + authService.user.email,
+                        user: to,
+                        type: 'message'
+                      });
 
-            $scope.$emit('backend', { action: 'notify:sio',
-                                      message: 'You have a new message from ' + authService.user.email,
-                                      user: to,
-                                      type: 'message'
-                                    });
+          notificationService.success('Message has sent');
 
-            notificationService.success('Message has sent');
-
-            $scope.replyMessage.subject = '';
-            $scope.replyMessage.message = '';
-          }
-        })
-        .error(function(response){
-          console.log(response)
-        });
+          //reset form
+          $scope.replyMessage.subject = '';
+          $scope.replyMessage.message = '';
+        }
+      });
     };
   }
 ]);

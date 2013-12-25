@@ -1,25 +1,36 @@
-angular.module('kabam.messages.states', ['ui.router'])
-  .config(function($stateProvider){
-    $stateProvider
-      .state('messages', {
+angular.module('kabam.messages.states').config([
+  'kabamStatesProvider',
+  function(kabamStatesProvider) {
+    kabamStatesProvider
+    .push([
+      {
+        name: 'messages',
         url: "/messages",
         templateUrl: "/assets/message/views/list.html",
-        controller: 'MessagesListCtrl'
-      })
-      .state('composeMessage', {
-        url: "/message/compose",
-        templateUrl: "/assets/message/views/compose.html",
+        controller: 'MessagesListCtrl',
+        resolve: {
+          page: function() {
+            return 1;
+          }
+        }
+      },
+      {
+        name: 'composeMessage',
+        url: '/message/compose',
+        templateUrl: '/assets/message/views/compose.html',
         controller: 'MessagesComposeCtrl'
-      })
-			.state('replyMessage', {
-				url: "/message/reply/:id",
-        templateUrl: "/assets/message/views/reply.html",
+      },
+      {
+        name: 'replyMessage',
+        url: '/message/reply/:id',
+        templateUrl: '/assets/message/views/reply.html',
         controller: 'MessagesReplyCtrl',
-				resolve: {
-					messageId : function($stateParams) {
-						console.log($stateParams.id);
-						return $stateParams.id;
-					}
-				}
-			});
-  });
+        resolve: {
+          message: function(MessageService, $stateParams) {
+            return MessageService.getMessage($stateParams.id);
+          }
+        }
+      }
+    ]);
+  }
+]);
