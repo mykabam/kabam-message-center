@@ -1,23 +1,27 @@
+<style>
+  .ta-editor{min-height:300px}
+</style>
 <div class="container">
-
   <div class="row-fluid">
     <h1>Compose message</h1>
     <form name="composeForm">
       <div class="row">
-        <select id="recipients" placeholder="Recipients" ng-model="message.recipients">
+        <select ui-select2 id="recipients" placeholder="Recipients"
+                ng-model="composeMessage.recipient" data-placeholder="Select a recipient" style="width:300px">
           <option ng-repeat="recipient in recipients"
-                  value="{{recipient.id}}">
+                  value="{{recipient._id}}">
             {{recipient.firstName}} {{recipient.lastName}}
           </option>
         </select>
+
         <span class="error" ng-show="composeForm.messageRecipients.$error.required">*</span><br>
       </div>
       <div class="row">
-        <input type="text" id="subject" placeholder="Subject" ng-model="message.subject" />
+        <input type="text" id="subject" placeholder="Subject" ng-model="composeMessage.subject" />
         <span class="error" ng-show="composeForm.messageSubject.$error.required">*</span><br>
       </div>
       <div class="row">
-        <textarea id="message-body" placeholder="Message" rows="10" cols="70" style="width:375px;height:300px" ng-model="message.message"></textarea>
+        <div text-angular="text-angular" ng-model="composeMessage.message" id="message-body"></div>
         <span class="error" ng-show="composeForm.messageMessage.$error.required">*</span><br>
       </div>
       <button class="btn btn-primary" ng-click="sendMessage()">Send</button>

@@ -2,18 +2,34 @@
   <div class="clearfix">
     <div class="row">
       <div class="col-lg-3 col-md-3 col-sm-12">
-        <h2 class="page-title">Messages</h2>
+        <h2 class="page-title">Messages Center</h2>
       </div>
       <div class="col-lg-4 col-md-4 col-sm-12 page-title-nav justified">
-        <ul>
-          <li class="active"><a href="#">All</a></li>
+        <ul class="nav nav-pills">
+          <li class="active"><a href="#messages">All</a></li>
           <li><a href="#message/mail">Mail</a></li>
           <li><a href="#">Calls</a></li>
           <li><a href="#">Audio</a></li>
         </ul>
       </div>
       <div class="col-lg-5 col-md-5 col-sm-12">
-        <a ui-sref="composeMessage" class="btn btn-altprimary pull-right discussion-new-topic-header"><i class="fa fa-plus"></i> Send Message</a>
+        <a ui-sref="composeMessage" class="btn btn-altprimary pull-right discussion-new-topic-header"><i class="fa fa-plus"></i> Compose</a>
+
+        <div class="btn-group pull-right">
+          <button type="button" class="btn">1-25 of {{totalMessages}}</button>
+          <a type="button" class="btn" ui-sref="messages({page : prevPage})">Prev</a>
+          <a type="button" class="btn" ui-sref="messages({page : nextPage})">Next</a>
+
+          <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+            Actions <span class="caret"></span>
+          </button>
+          <ul class="dropdown-menu" role="menu">
+            <li><a href="" ng-click="deleteMessages()">Delete</a></li>
+            <li><a href="" ng-click="reportSpam()">Report Spam</a></li>
+            <li><a href="" ng-click="markRead(true)">Mark as Read</a></li>
+            <li><a href="" ng-click="markRead(false)">Mark as Unread</a></li>
+          </ul>
+        </div>
       </div>
     </div>
   </div>
@@ -21,52 +37,36 @@
   <table class="table messages-index">
     <thead class="messages-head">
       <tr>
-        <th colspan="2">&nbsp;</th>
-        <th class="">From</th>
-        <th class="">Status</th>
-        <th colspan="2">Participants</th>
-      </tr>
+        <th>
+    <div class="btn-group">
+      <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+        - <span class="caret"></span>
+      </button>
+      <ul class="dropdown-menu" role="menu">
+        <li><a href="" ng-click="toogleCheck(true)">All</a></li>
+        <li><a href="" ng-click="toogleCheck(false)">None</a></li>
+      </ul>
+    </div>
+    </th>
+    <th>Date</th>
+    <th class="">From</th>
+    <th class="">Status</th>
+    <th>Subject</th>
+    </tr>
     </thead>
     <tbody>
       <tr class="message-row" ng-repeat="message in messages">
-        <td><input type="checkbox" /></td>
-        <td><i class="fa fa-phone"></i></td>
+        <td><input type="checkbox" ng-model="message.checked" ng-change="checkValue()" value="{{message._id}}" /></td>
+        <td><i class="icon icon-envelope"></i></td>
         <td>{{message.sender.firstName}} {{message.sender.lastName}}</td>
-        <td>{{message.readingStatus}}</td>
-        <td>{{message.subject}}</td>
         <td>
-          <a ui-sref="replyMessage({id : message._id})" class="btn btn-altprimary pull-right">View</a>
-          <a ui-sref="replyMessage({id : message._id})" class="btn btn-altprimary pull-right">Reply</a>
+          <div ng-switch on="message.readingStatus">
+            <div ng-switch-when="true">Readed</div>
+            <div ng-switch-default>Unread</div>
+          </div>
         </td>
+        <td><a ui-sref="replyMessage({id : message._id})">{{message.subject}}</a></td>
       </tr>
     </tbody>
   </table>
-
-  <div class="row">
-    <div class="col-lg-7 col-md-7 col-sm-7"></div>
-
-    <div class="col-lg-3 col-md-3 col-sm-3">
-      <div class="class-switcher clearfix">
-        <div class="dropdown">
-          <a href="#" class="current-class" data-toggle="dropdown">
-            <span>Actions</span>
-            <i class="fa fa-sort-down"></i>
-          </a>
-
-          <ul class="dropdown-menu">
-            <li class="dropdown-item">
-              <a href="#">Ascending</a>
-            </li>
-
-            <li class="dropdown-item">
-              <a href="#">Desending</a>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </div>
-    <div class="col-lg-2 col-md-2 col-sm-2">
-      <a ui-sref="composeMessage" class="btn btn-altprimary pull-right discussion-new-topic-header"><i class="fa fa-plus"></i> Send Message</a>
-    </div>
-  </div>
 </div>
