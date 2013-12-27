@@ -2,10 +2,10 @@
   <div class="clearfix">
     <div class="row">
       <div class="col-lg-3 col-md-3 col-sm-12">
-        <h2 class="page-title">Messages</h2>
+        <h2 class="page-title">Messages Center</h2>
       </div>
       <div class="col-lg-4 col-md-4 col-sm-12 page-title-nav justified">
-        <ul>
+        <ul class="nav nav-pills">
           <li class="active"><a href="#messages">All</a></li>
           <li><a href="#message/mail">Mail</a></li>
           <li><a href="#">Calls</a></li>
@@ -16,14 +16,18 @@
         <a ui-sref="composeMessage" class="btn btn-altprimary pull-right discussion-new-topic-header"><i class="fa fa-plus"></i> Compose</a>
 
         <div class="btn-group pull-right">
+          <button type="button" class="btn">1-25 of {{totalMessages}}</button>
+          <a type="button" class="btn" ui-sref="messages({page : prevPage})">Prev</a>
+          <a type="button" class="btn" ui-sref="messages({page : nextPage})">Next</a>
+
           <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
             Actions <span class="caret"></span>
           </button>
           <ul class="dropdown-menu" role="menu">
             <li><a href="" ng-click="deleteMessages()">Delete</a></li>
             <li><a href="" ng-click="reportSpam()">Report Spam</a></li>
-            <li><a href="" ng-click="markRead()">Mark as Read</a></li>
-            <li><a href="" ng-click="markUnread()">Mark as Unread</a></li>
+            <li><a href="" ng-click="markRead(true)">Mark as Read</a></li>
+            <li><a href="" ng-click="markRead(false)">Mark as Unread</a></li>
           </ul>
         </div>
       </div>
@@ -52,10 +56,15 @@
     </thead>
     <tbody>
       <tr class="message-row" ng-repeat="message in messages">
-        <td><input type="checkbox" ng-checked="isChecked" /></td>
+        <td><input type="checkbox" ng-model="message.checked" ng-change="checkValue()" value="{{message._id}}" /></td>
         <td><i class="icon icon-envelope"></i></td>
         <td>{{message.sender.firstName}} {{message.sender.lastName}}</td>
-        <td>{{message.readingStatus}}</td>
+        <td>
+          <div ng-switch on="message.readingStatus">
+            <div ng-switch-when="true">Readed</div>
+            <div ng-switch-default>Unread</div>
+          </div>
+        </td>
         <td><a ui-sref="replyMessage({id : message._id})">{{message.subject}}</a></td>
       </tr>
     </tbody>

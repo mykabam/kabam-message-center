@@ -1,5 +1,5 @@
-//=require kabam-core-web-frontend/public/vendor/textAngular/textAngular.min.js
 //= require_self
+//= require ./libs/textAngular/textAngular.min.js
 //= require ./services.js
 //= require ./controllers.js
 //= require ./states.js

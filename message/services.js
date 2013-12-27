@@ -1,42 +1,76 @@
 var messageServices = angular.module('kabam.messages.services');
-
-messageServices.factory('Message', [
+/**
+ * rewrite baseurl of default restangular
+ */
+messageServices.factory('MessageRestangular', [
   'Restangular',
-  function(Restangular) {
-    return Restangular.all('Message');
+  function(Restangular){
+    return Restangular.withConfig(function(RestangularConfigurer) {
+      RestangularConfigurer.setBaseUrl('/');
+    });
   }
 ]);
 
 messageServices.factory('MessageService', [
-  'Restangular', '$http',
-  function(Restangular, $http) {
-    var _messageService = Restangular.all('Message');
+  'MessageRestangular', '$http', '$q',
+  function(MessageRestangular, $http) {
+
+    var _messageService = MessageRestangular.all('messages');
 
     return {
-      getMessages: function(page) {
-        return $http.get('/messages', {params: {page: page}}).then(function(response) {
-          for (i = 0; i < response.data.length; i++) {
-            if (response.data[i].readingStatus != null && response.data[i].readingStatus) {
-              response.data[i].readingStatus = 'Readed';
-            } else {
-              response.data[i].readingStatus = 'Unread';
-            }
+      /**
+       * get total mesasges belongs to current user
+       * @returns
+       */
+      getTotalMessages : function(){
+        return _messageService.customGET('total').then(function(response){
+          if(response.total){
+            return response.total;
+          }else{
+            return 0;
           }
-          return response.data;
         });
       },
-      getMessage: function(id) {
-        return $http.get('/messages/' + id).then(function(response) {
-          return response.data;
+      /**
+       * get all messages from api
+       */
+      getMessages: function(page) {
+        return _messageService.getList({page : page}).then(function(messageCollection){
+          return messageCollection;
         });
+      },
+      /**
+       * get single message
+       */
+      getMessage: function(id) {
+        return _messageService.get(id);
       },
       /**
        * reply or compose a new message
        */
       postMessage: function(message) {
-        return $http.post('/messages', message).then(function(response) {
-          return response.data;
+        return _messageService.post(message).then(function(response){
+          return response;
         });
+      },
+
+      /**
+       * edit a message
+       *
+       */
+      putMessage : function(message){
+        return message.put().then(function(response){
+          return response;
+        });
+      },
+
+      /**
+       * delete sepecified message
+       * @param string id message id
+       * @returns response from server
+       */
+      deleteMessage : function(id){
+        return _messageService.one(id).remove();
       }
     };
   }

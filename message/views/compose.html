@@ -7,9 +7,9 @@
     <form name="composeForm">
       <div class="row">
         <select ui-select2 id="recipients" placeholder="Recipients"
-                ng-model="message.recipients" data-placeholder="Select a recipient" style="width:300px">
+                ng-model="composeMessage.recipient" data-placeholder="Select a recipient" style="width:300px">
           <option ng-repeat="recipient in recipients"
-                  value="{{recipient.id}}">
+                  value="{{recipient._id}}">
             {{recipient.firstName}} {{recipient.lastName}}
           </option>
         </select>
@@ -17,11 +17,11 @@
         <span class="error" ng-show="composeForm.messageRecipients.$error.required">*</span><br>
       </div>
       <div class="row">
-        <input type="text" id="subject" placeholder="Subject" ng-model="message.subject" />
+        <input type="text" id="subject" placeholder="Subject" ng-model="composeMessage.subject" />
         <span class="error" ng-show="composeForm.messageSubject.$error.required">*</span><br>
       </div>
       <div class="row">
-        <div text-angular="text-angular" ng-model="message.message" id="message-body"></div>
+        <div text-angular="text-angular" ng-model="composeMessage.message" id="message-body"></div>
         <span class="error" ng-show="composeForm.messageMessage.$error.required">*</span><br>
       </div>
       <button class="btn btn-primary" ng-click="sendMessage()">Send</button>
